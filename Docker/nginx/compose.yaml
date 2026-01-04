@@ -1,0 +1,29 @@
+name: nginx
+
+services:
+  nginx:
+    image: nginx:1.27.2-alpine
+    container_name: nginx
+    ports:
+      - "8080:8080"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./conf/my.conf:/etc/nginx/conf.d/my.conf
+      - ./html:/usr/share/nginx/html
+    expose:
+      - "8080"
+    # restart: always
+    networks:
+      public:
+        ipv4_address: 172.18.0.2
+
+networks:
+  public:
+    name: public
+    external: true
+    ipam:
+      driver: default
+      config:
+        - subnet: '172.18.0.0/16'
+
